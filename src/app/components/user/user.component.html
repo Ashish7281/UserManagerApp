@@ -1,0 +1,131 @@
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Manage <b>Users</b></h2>
+                </div>
+            </div>
+            
+                <button type="button" id="addBtn" class="btn btn-lg btn-primary" data-target="#exampleModalCenter"
+                    (click)="openUserForm(userFormModal)">Add User</button>
+          
+           
+                <button type="button" id="logoutBtn" class="btn btn-lg btn-primary" 
+                    (click)="onLogout()">LogOut</button>            
+        </div>
+
+<!-- Shows user details retrieved from server -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>                    
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th style="width: 200px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td><img [src]="user.avatar" /> </td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td><button type="button" class="btn btn-warning" data-target="#exampleModalCenter"
+                            (click)="openUpdateForm(updateFormModal,user)">Update</button>&nbsp;
+                        <button type="button" class="btn btn-danger bi bi-trash3" (click)="deleteUser(user)">Delete
+                        </button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    <!-- Shows page number  -->
+        <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+                (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Shows user registration form modal on click Add User button -->
+<ng-template #userFormModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add user details </h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form #userForm="ngForm">
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <input type="email" id="email" class="form-control" 
+                    placeholder="Email id" name="email" ngModel required/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fname">First Name</label>
+                <div class="input-group">
+                    <input type="text" id="fname" class="form-control" 
+                    placeholder="First Name" name="fname" ngModel required/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fname">Last Name</label>
+                <div class="input-group">
+                    <input type="text" id="lname" class="form-control" 
+                    placeholder="Last Name" name="lname" ngModel required/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark" [disabled]="userForm.invalid"
+            (click)="modal.close('Save click'); addUser(userForm.value)">Add</button>
+    </div>
+</ng-template>
+<hr />
+
+<!-- Shows user updation form modal on click Update button -->
+<ng-template #updateFormModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">User Details</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form #updateForm="ngForm">
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <input type="email" id="email" class="form-control" placeholder="Email id" name="email"
+                        [(ngModel)]="email" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fname">First Name</label>
+                <div class="input-group">
+                    <input type="text" id="fname" class="form-control" placeholder="First Name" name="fname"
+                        [(ngModel)]="fname" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fname">Last Name</label>
+                <div class="input-group">
+                    <input type="text" id="lname" class="form-control" placeholder="Last Name" name="lname"
+                        [(ngModel)]="lname" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark"
+            (click)="modal.close('Save click'); updateUser(updateForm.value)">Update</button>&nbsp;    
+    
+        <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+</ng-template>
+<hr />
