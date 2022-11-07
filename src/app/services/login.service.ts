@@ -17,6 +17,9 @@ export class LoginService {
       localStorage.setItem('token',"QpwL5tke4Pnpja7X4")
       this.router.navigateByUrl('/users');
     }
+    else{
+      alert("You entered incorrect username or password.");
+    }
   }
 
   // Check for user logged in or not
